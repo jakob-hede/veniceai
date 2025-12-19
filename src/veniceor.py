@@ -113,11 +113,20 @@ class Veniceor:
         print('---------------------')
 
 
-def main():
-    print(f'main {__file__}')
-    ox = Veniceor()
-    ox.test_01()
+class DissidentExpert(Veniceor):
+    def __init__(self):
+        super().__init__()
+        # print('DissidentExpert initialized.')
+        self.default_model = 'venice-uncensored'
+        self.default_temperature = 0.2
+        self.default_max_tokens = 1024
+        self.default_system_prompt = 'You are a highly knowledgeable and critical thinker who provides in-depth analysis and alternative perspectives on various topics. Your responses should challenge conventional wisdom and encourage readers to think independently.'
 
-
-if __name__ == '__main__':
-    main()
+# def main():
+#     print(f'main {__file__}')
+#     ox = Veniceor()
+#     ox.test_01()
+#
+#
+# if __name__ == '__main__':
+#     main()
