@@ -15,6 +15,13 @@ class Veniceor:
                 break
         print(f'project_dir: "{self.project_dir}"')
         self.secrets_dir = self.project_dir / 'secrets'
+        self.url = "https://api.venice.ai/api/v1/chat/completions"
+        self.default_key_name = 'inference01'
+        self.default_api_key = self.get_api_key(self.default_key_name)
+        self.default_model = 'llama-3.3-70b'
+        self.default_temperature = 0.7
+        self.default_max_tokens = 150
+        self.default_system_prompt = "You are a helpful assistant."
 
     def get_api_key(self, key_name: str) -> str:
         api_file = self.secrets_dir / f'{key_name}.apikey.txt'
@@ -75,6 +82,26 @@ class Veniceor:
         print("--- Generated Text ---")
         print(generated_text)
         print("---------------------")
+
+    def prompt(self, user_prompt: str) -> str:
+        headers = {
+            "Authorization": f"Bearer {self.default_api_key}",
+            "Content-Type": "application/json"
+        }
+        payload = {
+            "model": self.default_model,
+            "messages": [
+                {"role": "system", "content": self.default_system_prompt},
+                {"role": "user", "content": user_prompt}
+            ],
+            "temperature": self.default_temperature,
+            "max_tokens": self.default_max_tokens
+        }
+        response = requests.post(self.url, headers=headers, json=payload, timeout=30)
+        response.raise_for_status()
+        data = response.json()
+        generated_text = data['choices'][0]['message']['content'].strip()
+        return generated_text
 
 
 def main():
