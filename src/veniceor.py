@@ -103,8 +103,8 @@ class Veniceor:
         generated_text = data['choices'][0]['message']['content'].strip()
         return generated_text
 
-    def show_transition(self, user_prompt: str):
-        print('Veniceor transition method called.')
+    def show_transaction(self, user_prompt: str):
+        print('Veniceor transaction method called.')
         generated_text = self.prompt(user_prompt)
         print('--- Prompt ---')
         print(user_prompt)
